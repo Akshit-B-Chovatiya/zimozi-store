@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "326126893959",
+    "project_id": "zimozi-store",
+    "storage_bucket": "zimozi-store.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326126893959:android:9cbb2223518c6b9d887122",
+        "android_client_info": {
+          "package_name": "com.zimozi.store.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuP7-FlWyIsG5Rdmczqh1fZrmsipIKN2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
