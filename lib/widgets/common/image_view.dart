@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:zimozi_store/config/app_colors.dart';
+import 'package:zimozi_store/config/app_images.dart';
 import 'package:zimozi_store/utils/dialog_services/loading_view.dart';
 
 class ImageView extends StatelessWidget {
@@ -66,7 +66,12 @@ class ImageView extends StatelessWidget {
                           margin: const EdgeInsets.all(2),
                           child: Image.asset(errorWidgetLink!,
                               height: height, width: width, fit: boxFit, color: color))
-                      : Icon(Icons.error_outline_rounded, size: errorIconSize, color: AppColors.redColor))),
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(AppImages.appLogoImage,
+                              height: errorIconSize,
+                              width:
+                                  errorIconSize)) /*Icon(Icons.error_outline_rounded, size: errorIconSize, color: AppColors.redColor)*/)),
     );
   }
 }

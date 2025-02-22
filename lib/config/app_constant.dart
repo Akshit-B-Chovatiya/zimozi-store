@@ -17,4 +17,23 @@ class AppConstants {
 
   ///FONT FAMILIES
   static const String manRopeFamily = "Man-Rope";
+
+  ///FIREBASE DETAILS
+  static const String userId = "USER_ID";
+  static const String userDetails = "USER-DETAILS";
+
+  static const String stripePublishableKey =
+      "pk_test_51MlSLRSH8dA9zobqj7d1YsKI20JYR4I8JFsC87129uHfXlX6U8XnDMgLLgj4Dxdc2LWK3wHR3HmLXMnn1BzUq7Uu00zscYhwIm";
+  static const String stripeSecretKey =
+      "sk_test_51MlSLRSH8dA9zobqVcCYgEKgH7EZjwYvNos4y3vkjuPLwA1mBi9fAal7sYL5JFllILsHpPobPcwyqpDmadOg4wKS00QhKKwfyT";
+
+}
+
+class FirebaseKeys {
+  FirebaseKeys._();
+
+  ///DATABASES
+  static const String users = "users";
+  static const String products = "products";
+  static const String orders = "orders";
 }

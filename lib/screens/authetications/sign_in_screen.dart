@@ -2,9 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zimozi_store/blocs_and_cubits/authentications/sign_in/sign_in_cubit.dart';
-import 'package:zimozi_store/blocs_and_cubits/dashboard/dashboards_cubit.dart';
 import 'package:zimozi_store/config/app_colors.dart';
-import 'package:zimozi_store/config/app_constant.dart';
 import 'package:zimozi_store/config/app_images.dart';
 import 'package:zimozi_store/config/app_text_style.dart';
 import 'package:zimozi_store/screens/authetications/forgot_password_screen.dart';
@@ -45,7 +43,6 @@ class SignInScreen extends StatelessWidget {
                       } else if (state is SignInLoadedState) {
                         hideLoadingDialog(context: context);
                         showToastMessage(context: context, message: state.message);
-                        BlocProvider.of<DashboardsCubit>(AppConstants.navigatorKey.currentContext ?? context).changeTab(0);
                         PageNavigator.pushAndRemoveUntilPage(context: context, page: DashboardScreen());
                       } else if (state is SignInErrorState) {
                         hideLoadingDialog(context: context);

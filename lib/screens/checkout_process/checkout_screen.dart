@@ -4,7 +4,7 @@ import 'package:zimozi_store/blocs_and_cubits/checkout_process/checkout/checkout
 import 'package:zimozi_store/config/app_colors.dart';
 import 'package:zimozi_store/config/app_images.dart';
 import 'package:zimozi_store/models/checkout_process/address_model.dart';
-import 'package:zimozi_store/models/product_module/product_model.dart';
+import 'package:zimozi_store/models/checkout_process/cart_details_model.dart';
 import 'package:zimozi_store/screens/checkout_process/address_details_screen.dart';
 import 'package:zimozi_store/utils/common/toast_message_services.dart';
 import 'package:zimozi_store/utils/dialog_services/loading_view.dart';
@@ -18,7 +18,9 @@ import 'package:zimozi_store/widgets/common/text_widgets.dart';
 import 'package:zimozi_store/widgets/product_views/checkout_product_card_view.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({super.key, required this.allCartProducts});
+
+  final List<CartDetailsModel> allCartProducts;
 
   @override
   Widget build(BuildContext context) {
@@ -61,19 +63,13 @@ class CheckoutScreen extends StatelessWidget {
                                   padding: EdgeInsets.zero,
                                   itemBuilder: (BuildContext context, int index) {
                                     return CheckoutProductCardView(
-                                        productModel: ProductModel(
-                                            title:
-                                                "Product title in two line to check align and overflow of size",
-                                            imageLink:
-                                                "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                                            isFavourite: true,
-                                            newPrice: 299,
-                                            oldPrice: 350));
+                                        productModel: allCartProducts[index].productDataModel,
+                                        quantity: allCartProducts[index].cartModel.quantity ?? 0);
                                   },
                                   separatorBuilder: (BuildContext context, int index) {
                                     return DividerView(topMargin: 10, bottomMargin: 10);
                                   },
-                                  itemCount: 3),
+                                  itemCount: allCartProducts.length),
                               SizedBox(height: 20),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,11 +99,25 @@ class CheckoutScreen extends StatelessWidget {
                                   ? MediumTextView(data: getFormattedAddress(address: cubit.addressDetails!))
                                   : Container(),
                               SemiBoldTextView(data: "Bill Summary", fontSize: 18, topPadding: 20),
-                              BillSummaryCardView(title: "Item total", value: "Rs. 500.00"),
-                              BillSummaryCardView(title: "TAX (10%)", value: "Rs. 50.00"),
-                              BillSummaryCardView(title: "Delivery Charge", value: "free"),
-                              BillSummaryCardView(title: "Discounts", value: "Rs. 0.00"),
-                              BillSummaryCardView(title: "Grand Total", value: "Rs. 580.00"),
+                              BillSummaryCardView(
+                                  title: "Item total",
+                                  value:
+                                      "Rs.${cubit.getTotalPrice(allCartProducts: allCartProducts).toStringAsFixed(2)}"),
+                              BillSummaryCardView(
+                                  title: "TAX (18%)",
+                                  value:
+                                      "Rs.${cubit.getTaxAmount(allCartProducts: allCartProducts).toStringAsFixed(2)}"),
+                              BillSummaryCardView(title: "Delivery Charge", value: "Free"),
+                              BillSummaryCardView(
+                                  title: "Discounts (10%)",
+                                  value:
+                                      "-Rs.${cubit.getDiscountAmount(allCartProducts: allCartProducts).toStringAsFixed(2)}",
+                                  valueColor: AppColors.greenColor),
+                              BillSummaryCardView(
+                                  title: "Grand Total",
+                                  value:
+                                      "Rs.${cubit.totalBillableAmount(allCartProducts: allCartProducts).toStringAsFixed(2)}",
+                                  valueColor: AppColors.orangeColor),
                             ]))),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -123,7 +133,10 @@ class CheckoutScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   BoldTextView(
-                                      data: "Rs. 500.00", fontSize: 18, textColor: AppColors.orangeColor),
+                                      data:
+                                          "Rs.${cubit.totalBillableAmount(allCartProducts: allCartProducts).toStringAsFixed(2)}",
+                                      fontSize: 18,
+                                      textColor: AppColors.orangeColor),
                                   RegularTextView(
                                       data: "Total Payable Amount", textColor: AppColors.greyColor)
                                 ],
@@ -138,7 +151,8 @@ class CheckoutScreen extends StatelessWidget {
                                 textSize: 13,
                                 topMargin: 0,
                                 onTap: () async {
-                                  await cubit.validateAndMakePayment(context: context);
+                                  await cubit.validateAndMakePayment(
+                                      context: context, allCartProducts: allCartProducts);
                                 })
                           ],
                         ),

@@ -1,21 +1,22 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:zimozi_store/models/authentication/authentication_model.dart';
+import 'package:zimozi_store/utils/firebase_services/firebase_autehntication_service.dart';
 import 'package:zimozi_store/utils/services/keyboard_services.dart';
 import 'package:zimozi_store/utils/storage_services/validation.dart';
-import 'package:zimozi_store/utils/views/page_navigator.dart';
 
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(SignUpInitialState());
 
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController(text: "Akshit");
+  final TextEditingController lastNameController = TextEditingController(text: "Chovatiya");
+  final TextEditingController phoneNumberController = TextEditingController(text: "6352535216");
+  final TextEditingController emailController = TextEditingController(text: "akshitchovatiya98@gmail.com");
+  final TextEditingController passwordController = TextEditingController(text: "Test@123");
+  final TextEditingController confirmPasswordController = TextEditingController(text: "Test@123");
 
   Future<void> validateAndSignUp({required BuildContext context}) async {
     emit(SignUpLoadingState());
@@ -38,12 +39,17 @@ class SignUpCubit extends Cubit<SignUpState> {
     } else {
       hideKeyboard();
       emit(SignUpLoadingState());
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(SignUpLoadedState(message: "Registered successfully!"));
-        if (context.mounted) {
-          PageNavigator.pop(context: context);
-        }
-      });
+      AuthenticationModel authenticationModel = await FirebaseAuthService.register(
+          firstName: firstNameController.text.trim(),
+          lastName: lastNameController.text.trim(),
+          phoneNumber: phoneNumberController.text.trim(),
+          emailAddress: emailController.text.trim(),
+          password: passwordController.text.trim());
+      if (authenticationModel.isSuccess) {
+        emit(SignUpLoadedState(message: authenticationModel.message));
+      } else {
+        emit(SignUpErrorState(message: authenticationModel.message));
+      }
     }
   }
 }

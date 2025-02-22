@@ -7,13 +7,12 @@ Future<void> changeStatusColor() async {
   try {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: AppColors.transparentColor,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
       systemNavigationBarColor: AppColors.transparentColor,
-      systemStatusBarContrastEnforced: true,
-      // statusBarIconBrightness: Brightness.dark,
-      // statusBarBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.light,
-      systemNavigationBarDividerColor: AppColors.transparentColor,
+      systemNavigationBarIconBrightness: Brightness.dark,
     ));
+
     showLogs(message: "STATUS BAR COLOR SET");
   } on PlatformException catch (e) {
     showLogs(message: "STATUS BAR COLOR ERROR : ${e.toString()}");

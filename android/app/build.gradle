@@ -41,6 +41,7 @@ android {
         versionCode = localProperties.getProperty('flutter.versionCode').toInteger()
         versionName = localProperties.getProperty('flutter.versionName')
         multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -48,6 +49,9 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 
@@ -66,4 +70,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("com.google.firebase:firebase-analytics")
     implementation 'com.android.support:multidex:2.0.1'
+    implementation 'com.stripe:stripe-android:20.37.2'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    implementation 'com.google.android.gms:play-services-wallet:19.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

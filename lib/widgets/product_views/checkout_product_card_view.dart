@@ -5,9 +5,10 @@ import 'package:zimozi_store/widgets/common/image_view.dart';
 import 'package:zimozi_store/widgets/common/text_widgets.dart';
 
 class CheckoutProductCardView extends StatelessWidget {
-  const CheckoutProductCardView({super.key, required this.productModel});
+  const CheckoutProductCardView({super.key, required this.productModel, required this.quantity});
 
-  final ProductModel productModel;
+  final ProductDataModel productModel;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class CheckoutProductCardView extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: ImageView(
-              imageUrl: productModel.imageLink ?? "",
+              imageUrl: productModel.imageUrl ?? "",
               isAsset: false,
               boxFit: BoxFit.fill,
               width: 50,
@@ -26,9 +27,10 @@ class CheckoutProductCardView extends StatelessWidget {
         SizedBox(width: 15),
         Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MediumTextView(
-                data: productModel.title ?? "",
+                data: productModel.name ?? "",
                 maxLine: 1,
                 textOverflow: TextOverflow.ellipsis,
                 bottomPadding: 5,
@@ -36,13 +38,13 @@ class CheckoutProductCardView extends StatelessWidget {
               Row(
                 children: [
                   BoldTextView(
-                      data: "Rs. ${(productModel.newPrice ?? 0).toStringAsFixed(0)}/-",
+                      data: "Rs. ${(productModel.discountedPrice ?? 0).toStringAsFixed(2)}",
                       fontSize: 16,
                       rightPadding: 10,
                       textColor: AppColors.orangeColor,
                       textOverflow: TextOverflow.ellipsis),
                   MediumTextView(
-                      data: "Rs. ${(productModel.oldPrice ?? 0).toStringAsFixed(0)}/-",
+                      data: "Rs. ${(productModel.price ?? 0).toStringAsFixed(2)}",
                       fontSize: 13,
                       textColor: AppColors.greyColor,
                       textDecoration: TextDecoration.lineThrough,
@@ -54,7 +56,7 @@ class CheckoutProductCardView extends StatelessWidget {
                       textColor: AppColors.greyColor,
                       textOverflow: TextOverflow.ellipsis),
                   MediumTextView(
-                      data: "x4",
+                      data: "x$quantity",
                       fontSize: 13,
                       textColor: AppColors.blackColor,
                       textOverflow: TextOverflow.ellipsis)

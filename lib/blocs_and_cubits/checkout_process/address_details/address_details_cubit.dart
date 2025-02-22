@@ -8,12 +8,12 @@ part 'address_details_state.dart';
 class AddressDetailsCubit extends Cubit<AddressDetailsState> {
   AddressDetailsCubit() : super(AddressDetailsInitialState());
 
-  final TextEditingController houseNumberController = TextEditingController();
-  final TextEditingController streetNameController = TextEditingController();
-  final TextEditingController cityNameController = TextEditingController();
-  final TextEditingController stateNameController = TextEditingController();
-  final TextEditingController pinCodeNumberController = TextEditingController();
-  final TextEditingController countryNameController = TextEditingController();
+  final TextEditingController houseNumberController = TextEditingController(text: "154");
+  final TextEditingController streetNameController = TextEditingController(text: "Abhsishek Arcade");
+  final TextEditingController cityNameController = TextEditingController(text: "Surat");
+  final TextEditingController stateNameController = TextEditingController(text: "Gujarat");
+  final TextEditingController pinCodeNumberController = TextEditingController(text: "395006");
+  final TextEditingController countryNameController = TextEditingController(text: "India");
 
   void setPreSelectedData({AddressModel? address}) {
     if (address != null) {

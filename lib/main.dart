@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zimozi_store/blocs_and_cubits/dashboard/dashboards_cubit.dart';
 import 'package:zimozi_store/blocs_and_cubits/splash_and_intro/splash/splash_cubit.dart';
+import 'package:zimozi_store/blocs_and_cubits/tabs/account_tab/account/account_cubit.dart';
 import 'package:zimozi_store/config/app_colors.dart';
 import 'package:zimozi_store/config/app_constant.dart';
 import 'package:zimozi_store/screens/splash_and_intro/splash_screen.dart';
@@ -25,6 +26,9 @@ class ZimoziStoreApp extends StatelessWidget {
 
           ///DASHBOARD SCREEN
           BlocProvider<DashboardsCubit>(create: (BuildContext _) => DashboardsCubit()),
+
+          ///ACCOUNT TAB
+          BlocProvider<AccountCubit>(create: (BuildContext _) => AccountCubit()),
         ],
         child: MaterialApp(
             title: 'Zimozi Store',

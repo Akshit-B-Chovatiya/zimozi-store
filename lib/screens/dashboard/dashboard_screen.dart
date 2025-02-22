@@ -3,10 +3,24 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zimozi_store/blocs_and_cubits/dashboard/dashboards_cubit.dart';
+import 'package:zimozi_store/blocs_and_cubits/tabs/account_tab/account/account_cubit.dart';
+import 'package:zimozi_store/config/app_constant.dart';
 import 'package:zimozi_store/screens/dashboard/footer_view.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<DashboardsCubit>(AppConstants.navigatorKey.currentContext ?? context).changeTab(0);
+    BlocProvider.of<AccountCubit>(AppConstants.navigatorKey.currentContext ?? context).getUserDetails();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

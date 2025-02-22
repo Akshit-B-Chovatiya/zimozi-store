@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:zimozi_store/models/checkout_process/address_model.dart';
 
 bool isValidEmail({required String email}) {
@@ -13,9 +15,18 @@ bool isValidGST({required String gstNumber}) {
   return RegExp(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$').hasMatch(gstNumber);
 }
 
+List<TextInputFormatter> allowOnlyNumbers = [
+  FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+  FilteringTextInputFormatter.digitsOnly,
+];
 
-String getFormattedAddress({required AddressModel address}){
+String getFormattedAddress({required AddressModel address}) {
   return "${address.houseNumber}, ${address.street}, ${address.city}, ${address.state} - ${address.pinCode}, ${address.country}.";
+}
+
+String formatTimestamp({required Timestamp timestamp}) {
+  DateTime dateTime = timestamp.toDate(); // Convert Timestamp to DateTime
+  return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime); // Format DateTime
 }
 
 class CustomRangeTextInputFormatter extends TextInputFormatter {

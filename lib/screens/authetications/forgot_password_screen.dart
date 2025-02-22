@@ -50,6 +50,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         } else if (state is ForgotPasswordLoadedState) {
                           hideLoadingDialog(context: context);
                           showToastMessage(context: context, message: state.message);
+                          PageNavigator.pop(context: context);
                         } else if (state is ForgotPasswordErrorState) {
                           hideLoadingDialog(context: context);
                           showToastMessage(context: context, message: state.message, isErrorMessage: true);
@@ -74,48 +75,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                               bottomPadding: 10),
                           TextFieldView(
                               controller: cubit.emailController, label: "Email", hint: "Enter your email"),
-                          Visibility(
-                              visible: cubit.isOTPSent,
-                              child: SemiBoldTextView(
-                                  data: "Enter verification code sent to\n${cubit.emailController.text}",
-                                  textAlign: TextAlign.center,
-                                  textColor: AppColors.greyColor,
-                                  fontSize: 12,
-                                  topPadding: 25)),
-                          Visibility(
-                              visible: cubit.isOTPSent,
-                              child: TextFieldView(
-                                  controller: cubit.verificationCodeController,
-                                  label: "Verification Code",
-                                  hint: "Enter verification code")),
-                          Visibility(
-                              visible: cubit.isOTPVerified,
-                              child: SemiBoldTextView(
-                                  data: "Create New Password",
-                                  textColor: AppColors.greyColor,
-                                  fontSize: 12,
-                                  topPadding: 25)),
-                          Visibility(
-                              visible: cubit.isOTPVerified,
-                              child: TextFieldView(
-                                  controller: cubit.newPasswordController,
-                                  label: "New Password",
-                                  hint: "Enter new password")),
-                          Visibility(
-                              visible: cubit.isOTPVerified,
-                              child: TextFieldView(
-                                  controller: cubit.newConfirmPasswordController,
-                                  label: "Confirm Password",
-                                  hint: "Enter confirmation password")),
                           ButtonView(
-                              title: cubit.isOTPVerified
-                                  ? "Update Password"
-                                  : cubit.isOTPSent
-                                      ? "Verify Code"
-                                      : "Send Verification Code",
+                              title: "Update Password",
                               bottomMargin: 30,
                               onTap: () async {
-                                await cubit.validateAndDoProcessForForgotPassword(context: context);
+                                await cubit.validateAndSendResetPasswordLinkToMail();
                               })
                         ]);
                       },

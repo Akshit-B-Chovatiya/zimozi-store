@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:zimozi_store/config/app_colors.dart';
+import 'package:zimozi_store/models/orders/my_orders_model.dart';
 import 'package:zimozi_store/widgets/checkout_process/bill_summary_card_view.dart';
 import 'package:zimozi_store/widgets/common/divider_view.dart';
 import 'package:zimozi_store/widgets/common/text_widgets.dart';
 
 class MyOrdersCarView extends StatelessWidget {
-  const MyOrdersCarView({super.key});
+  const MyOrdersCarView({super.key, required this.order});
+
+  final MyOrdersModel order;
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +21,46 @@ class MyOrdersCarView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(children: [
+            Expanded(
+              child: MediumTextView(
+                  data: "Order date", maxLine: 2, textOverflow: TextOverflow.ellipsis, fontSize: 12),
+            ),
+            MediumTextView(
+                data: order.createdAt ?? "",
+                maxLine: 2,
+                textColor: AppColors.greyColor,
+                textOverflow: TextOverflow.ellipsis,
+                fontSize: 10)
+          ]),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: MediumTextView(
-                    data: "14 - Feb - 2025", maxLine: 2, topPadding: 5, textOverflow: TextOverflow.ellipsis),
-              ),
+                  child: MediumTextView(
+                      data: "Payment Reference",
+                      maxLine: 2,
+                      textOverflow: TextOverflow.ellipsis,
+                      fontSize: 12)),
               MediumTextView(
-                  data: "#123",
+                  data: "#${order.paymentDetails?.id}",
                   maxLine: 2,
-                  topPadding: 5,
+                  fontSize: 10,
                   textColor: AppColors.greyColor,
-                  textOverflow: TextOverflow.ellipsis),
+                  textOverflow: TextOverflow.ellipsis)
             ],
           ),
           DividerView(topMargin: 5, bottomMargin: 5),
-          ...List.generate(5, (int index) {
-            return BillSummaryCardView(title: "2 x Iten ${index + 1}", value: "Rs. 100.00");
+          ...List.generate((order.items ?? []).length, (int index) {
+            Item item = (order.items ?? [])[index];
+            return BillSummaryCardView(
+                title: "${item.quantity ?? 0} x ${item.name ?? ""}", value: "Rs. 100.00");
           }),
           DividerView(topMargin: 5, bottomMargin: 5),
-          BillSummaryCardView(title: "Total", value: "Rs. 100.00", valueColor: AppColors.orangeColor)
+          BillSummaryCardView(
+              title: "Total",
+              value: "Rs.${(order.totalAmount ?? 0).toStringAsFixed(2)}",
+              valueColor: AppColors.orangeColor)
         ],
       ),
     );

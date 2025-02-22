@@ -8,6 +8,7 @@ import 'package:zimozi_store/config/app_text_style.dart';
 import 'package:zimozi_store/utils/common/toast_message_services.dart';
 import 'package:zimozi_store/utils/dialog_services/loading_view.dart';
 import 'package:zimozi_store/utils/services/keyboard_services.dart';
+import 'package:zimozi_store/utils/storage_services/validation.dart';
 import 'package:zimozi_store/utils/views/page_navigator.dart';
 import 'package:zimozi_store/widgets/common/button_view.dart';
 import 'package:zimozi_store/widgets/common/image_view.dart';
@@ -53,6 +54,7 @@ class SignUpScreen extends StatelessWidget {
                           } else if (state is SignUpLoadedState) {
                             hideLoadingDialog(context: context);
                             showToastMessage(context: context, message: state.message);
+                            PageNavigator.pop(context: context);
                           } else if (state is SignUpErrorState) {
                             hideLoadingDialog(context: context);
                             showToastMessage(context: context, message: state.message, isErrorMessage: true);
@@ -83,7 +85,9 @@ class SignUpScreen extends StatelessWidget {
                               TextFieldView(
                                   controller: cubit.phoneNumberController,
                                   label: "Phone",
-                                  hint: "Enter your phone number"),
+                                  hint: "Enter your phone number",
+                                  textInputType: TextInputType.number,
+                                  inputFormatters: allowOnlyNumbers),
                               TextFieldView(
                                   controller: cubit.emailController,
                                   label: "Email",
