@@ -11,12 +11,12 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(SignUpInitialState());
 
-  final TextEditingController firstNameController = TextEditingController(text: "Akshit");
-  final TextEditingController lastNameController = TextEditingController(text: "Chovatiya");
-  final TextEditingController phoneNumberController = TextEditingController(text: "6352535216");
-  final TextEditingController emailController = TextEditingController(text: "akshitchovatiya98@gmail.com");
-  final TextEditingController passwordController = TextEditingController(text: "Test@123");
-  final TextEditingController confirmPasswordController = TextEditingController(text: "Test@123");
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   Future<void> validateAndSignUp({required BuildContext context}) async {
     emit(SignUpLoadingState());

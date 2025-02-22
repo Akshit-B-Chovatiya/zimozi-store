@@ -16,8 +16,8 @@ part 'sign_in_state.dart';
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(SignInInitialState());
 
-  final TextEditingController emailController = TextEditingController(text: "akshitchovatiya98@gmail.com");
-  final TextEditingController passwordController = TextEditingController(text: "Test@123");
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   void clearForm() {
     emit(SignInInitialState());
